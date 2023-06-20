@@ -18,3 +18,8 @@ Nome do filme: Jogos Vorazes
 Horario : 19:45
 Preco : 19.00;
 
+id : 5
+Nome do filme: A transa do careca
+Horario : 20:4
+Preco : 100.00;
+

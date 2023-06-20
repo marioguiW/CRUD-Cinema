@@ -3,11 +3,9 @@
 #include <stdlib.h>
 
 #define MAX_LINE_LENGTH 1000
-
-int atualiza(){
+int atualiza()
+{
     int optionAtualiza;
-
-
     printf("ª=ª=ª=ª=ª= Atualizacoes =ª=ª=ª=ª=ª\n");
     printf("|  [1] - Atualizar dados de um Filme      |\n");
     printf("|  [2] - Remover um filme                 |\n");
@@ -16,134 +14,136 @@ int atualiza(){
     printf("|  [5] - Limpar a Tela                    |\n");
     printf("|  [6] - VOLTAR                           |\n");
     printf("===========================================\n");
-
     printf("\nDigite a opcao desejada: ");
     scanf("%d", &optionAtualiza);
-
     return optionAtualiza;
 }
-
-
-void atualizar_cadastro_filmes() {
+void atualizar_cadastro_filmes()
+// Essa função permite ao usuário atualizar o cadastro de um filme.
+{
     FILE *file = fopen("cinemaV0.txt", "r+");
-    if (file == NULL) {
+    if (file == NULL)
+    {
         printf("Erro ao abrir o arquivo.\n");
         return;
     }
-
     printf("================ Atualizar Cadastro de Filmes ================\n");
-
     int id;
     printf("Digite o ID do filme que deseja atualizar: ");
     scanf("%d", &id);
-
     printf("\n");
-
     char linha[MAX_LINE_LENGTH];
     int encontrou = 0;
     int emBloco = 0;
     long int posicaoAtual;
-
-    while (fgets(linha, MAX_LINE_LENGTH, file) != NULL) {
-        if (emBloco) {
-            if (strcmp(linha, "\n") == 0) {
+    while (fgets(linha, MAX_LINE_LENGTH, file) != NULL)
+    {
+        if (emBloco)
+        {
+            if (strcmp(linha, "\n") == 0)
+            {
                 emBloco = 0;
                 printf("\n");
-            } else {
+            }
+            else
+            {
                 printf("%s", linha);
             }
-        } else if (strstr(linha, "id") != NULL) {
+        }
+        else if (strstr(linha, "id") != NULL)
+        {
             int linhaID;
             sscanf(linha, "id : %d", &linhaID);
-            if (linhaID == id) {
+            if (linhaID == id)
+            {
                 encontrou = 1;
                 emBloco = 1;
                 posicaoAtual = ftell(file);
             }
         }
     }
-
-    if (!encontrou) {
+    if (!encontrou)
+    {
         printf("Nenhum filme encontrado com o ID especificado.\n\n");
-    } else {
+    }
+    else
+    {
         fseek(file, posicaoAtual, SEEK_SET);
-
         char nomeFilme[50];
         char horario[10];
         float preco;
-
         printf("Digite o novo nome do filme: ");
         getchar(); // Limpar o buffer do teclado
         fgets(nomeFilme, sizeof(nomeFilme), stdin);
-        nomeFilme[strcspn(nomeFilme, "\n")] = '\0';  // Remove a quebra de linha do final do nome
-
+        nomeFilme[strcspn(nomeFilme, "\n")] = '\0'; // Remove a quebra de linha do final do nome
         printf("Digite o novo horario (ex : 20:30): ");
         fgets(horario, sizeof(horario), stdin);
-        horario[strcspn(horario, "\n")] = '\0';  // Remove a quebra de linha do final do horario
-
+        horario[strcspn(horario, "\n")] = '\0'; // Remove a quebra de linha do final do horario
         printf("Digite o novo preco: ");
         scanf("%f", &preco);
-    
         fprintf(file, "Nome do filme: %s\n", nomeFilme);
         fprintf(file, "Horario : %s\n", horario);
         fprintf(file, "Preco : %.2f\n", preco);
-
         printf("\nCadastro do filme atualizado com sucesso!\n\n");
     }
-
     fclose(file);
 }
-
-
-void atualizar_cadastro_clientes() {
+void atualizar_cadastro_clientes()
+// Essa função permite ao usuário atualizar o cadastro de um cliente.
+{
     FILE *file = fopen("clienteV0.txt", "r+");
-    if (file == NULL) {
+    if (file == NULL)
+    {
         printf("Erro ao abrir o arquivo.\n");
         return;
     }
-
     printf("================ Atualizar Cadastro de Clientes ================\n");
-
     int id;
     printf("Digite o ID do cliente que deseja atualizar: ");
     scanf("%d", &id);
-
     char linha[MAX_LINE_LENGTH];
     int encontrou = 0;
     int emBloco = 0;
     long int posicaoAtual;
-
-    while (fgets(linha, MAX_LINE_LENGTH, file) != NULL) {
-        if (emBloco) {
-            if (strcmp(linha, "\n") == 0) {
+    while (fgets(linha, MAX_LINE_LENGTH, file) != NULL)
+    {
+        if (emBloco)
+        {
+            if (strcmp(linha, "\n") == 0)
+            {
                 emBloco = 0;
                 printf("\n");
-            } else {
+            }
+            else
+            {
                 printf("%s", linha);
             }
-        } else if (strstr(linha, "id") != NULL) {
+        }
+        else if (strstr(linha, "id") != NULL)
+        {
             int linhaID;
             sscanf(linha, "id : %d", &linhaID);
-            if (linhaID == id) {
+            if (linhaID == id)
+            {
                 encontrou = 1;
                 emBloco = 1;
                 posicaoAtual = ftell(file);
             }
         }
     }
-
-    if (!encontrou) {
+    if (!encontrou)
+    {
         printf("Nenhum cliente encontrado com o ID especificado.\n");
-    } else {
+    }
+    else
+    {
         fseek(file, posicaoAtual, SEEK_SET);
-
         char nomeCliente[50];
         int idade;
-
         printf("Digite o novo nome do cliente: ");
         getchar(); // Limpar o buffer do teclado
         fgets(nomeCliente, sizeof(nomeCliente), stdin);
-        nomeCliente[strcspn(nomeCliente, "\n")] = '\0';  // Remove a quebra de linha do final do nome
+        nomeCliente[strcspn(nomeCliente, "\n")] = '\0'; // Remove a quebra de linha do final do nome.
 
         printf("Digite a nova idade do cliente: ");
         scanf("%d", &idade);
@@ -153,92 +153,99 @@ void atualizar_cadastro_clientes() {
 
         printf("\nCadastro do cliente atualizado com sucesso!\n");
     }
-
     fclose(file);
 }
-
-void excluir_cliente_por_id() {
+void excluir_cliente_por_id()
+// Essa função permite ao usuário excluir um Cliente com base no ID fornecido.
+{
     FILE *file = fopen("clienteV0.txt", "r");
-    if (file == NULL) {
+    if (file == NULL)
+    {
         printf("Erro ao abrir o arquivo.\n");
         return;
     }
-
     int id;
     printf("Digite o ID do cliente que deseja excluir: ");
     scanf("%d", &id);
-
     FILE *tempFile = fopen("temp.txt", "w");
-    if (tempFile == NULL) {
+    if (tempFile == NULL)
+    {
         printf("Erro ao criar arquivo temporário.\n");
         fclose(file);
         return;
     }
-
     char linha[MAX_LINE_LENGTH];
     int encontrou = 0;
-
-    while (fgets(linha, MAX_LINE_LENGTH, file) != NULL) {
+    while (fgets(linha, MAX_LINE_LENGTH, file) != NULL)
+    {
         int linhaID;
         sscanf(linha, "id : %d", &linhaID);
-        if (linhaID != id) {
+        if (linhaID != id)
+        {
             fprintf(tempFile, "%s", linha);
-        } else {
+        }
+        else
+        {
             encontrou = 1;
         }
     }
-
     fclose(file);
     fclose(tempFile);
-
-    if (!encontrou) {
+    if (!encontrou)
+    {
         printf("Nenhum cliente encontrado com o ID especificado.\n");
         remove("temp.txt");
-    } else {
+    }
+    else
+    {
         remove("clienteV0.txt");
         rename("temp.txt", "clienteV0.txt");
         printf("Cliente removido com sucesso!\n");
     }
 }
-
-void excluir_filme_por_id() {
+void excluir_filme_por_id()
+// Essa função permite ao usuário excluir um Filme com base no ID fornecido.
+{
     FILE *file = fopen("cinemaV0.txt", "r");
-    if (file == NULL) {
+    if (file == NULL)
+    {
         printf("Erro ao abrir o arquivo.\n");
         return;
     }
-
     int id;
     printf("Digite o ID do filme que deseja excluir: ");
     scanf("%d", &id);
-
     FILE *tempFile = fopen("temp.txt", "w");
-    if (tempFile == NULL) {
+    if (tempFile == NULL)
+    {
         printf("Erro ao criar arquivo temporário.\n");
         fclose(file);
         return;
     }
-
     char linha[MAX_LINE_LENGTH];
     int encontrou = 0;
-
-    while (fgets(linha, MAX_LINE_LENGTH, file) != NULL) {
+    while (fgets(linha, MAX_LINE_LENGTH, file) != NULL)
+    {
         int linhaID;
         sscanf(linha, "id : %d", &linhaID);
-        if (linhaID != id) {
+        if (linhaID != id)
+        {
             fprintf(tempFile, "%s", linha);
-        } else {
+        }
+        else
+        {
             encontrou = 1;
         }
     }
-
     fclose(file);
     fclose(tempFile);
-
-    if (!encontrou) {
+    if (!encontrou)
+    {
         printf("Nenhum filme encontrado com o ID especificado.\n");
         remove("temp.txt");
-    } else {
+    }
+    else
+    {
         remove("cinemaV0.txt");
         rename("temp.txt", "cinemaV0.txt");
         printf("Filme removido com sucesso!\n");
